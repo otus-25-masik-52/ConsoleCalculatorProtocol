@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/calculator/calculation-request.schema.json",
+  "title": "CalculationRequest",
+  "type": "object",
+  "required": ["protocol_version", "request_id", "operation", "operands"],
+  "properties": {
+    "protocol_version": { "type": "integer", "const": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "operation": {
+      "type": "string",
+      "enum": ["addition", "add", "subtraction", "sub", "multiplication", "mul", "division", "div", "exponentiation", "pow", "factorial", "fact"]
+    },
+    "operands": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "minItems": 1,
+      "maxItems": 8
+    },
+    "client": { "type": "object" },
+    "options": { "type": "object" }
+  },
+  "additionalProperties": true
+}

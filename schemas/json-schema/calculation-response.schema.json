@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/calculator/calculation-response.schema.json",
+  "title": "CalculationResponse",
+  "type": "object",
+  "required": ["protocol_version", "request_id", "status", "result", "error"],
+  "properties": {
+    "protocol_version": { "type": "integer", "const": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "object",
+      "required": ["code", "name"],
+      "properties": {
+        "code": { "type": "integer" },
+        "name": { "type": "string" }
+      }
+    },
+    "result": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "object", "required": ["value"], "properties": { "value": { "type": "integer" } } }
+      ]
+    },
+    "error": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "object", "required": ["code", "message"], "properties": { "code": { "type": "string" }, "message": { "type": "string" } } }
+      ]
+    }
+  },
+  "additionalProperties": true
+}

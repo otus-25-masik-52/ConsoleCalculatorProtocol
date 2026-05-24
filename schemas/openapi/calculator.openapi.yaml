@@ -1,0 +1,73 @@
+openapi: 3.0.3
+info:
+  title: Console Calculator API
+  version: 1.0.0
+paths:
+  /v1/calculate:
+    post:
+      summary: Calculate operation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationRequest'
+      responses:
+        '200':
+          description: Calculation response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculationResponse'
+components:
+  schemas:
+    CalculationRequest:
+      type: object
+      required: [protocol_version, request_id, operation, operands]
+      properties:
+        protocol_version:
+          type: integer
+          example: 1
+        request_id:
+          type: string
+          example: req-1
+        operation:
+          type: string
+          enum: [addition, subtraction, multiplication, division, exponentiation, factorial]
+        operands:
+          type: array
+          items:
+            type: integer
+            format: int64
+    CalculationResponse:
+      type: object
+      required: [protocol_version, request_id, status, result, error]
+      properties:
+        protocol_version:
+          type: integer
+          example: 1
+        request_id:
+          type: string
+        status:
+          type: object
+          required: [code, name]
+          properties:
+            code:
+              type: integer
+            name:
+              type: string
+        result:
+          nullable: true
+          type: object
+          properties:
+            value:
+              type: integer
+              format: int64
+        error:
+          nullable: true
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string

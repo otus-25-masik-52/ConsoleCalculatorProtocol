@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package calculator.protocol.v1;
+
+service CalculatorService {
+  rpc Calculate(CalculationRequest) returns (CalculationResponse);
+}
+
+message CalculationRequest {
+  uint32 protocol_version = 1;
+  string request_id = 2;
+  string operation = 3;
+  repeated int64 operands = 4;
+  ClientInfo client = 5;
+  RequestOptions options = 6;
+}
+
+message ClientInfo {
+  string name = 1;
+  string version = 2;
+  string instance_id = 3;
+  string platform = 4;
+  string transport = 5;
+}
+
+message RequestOptions {
+  optional uint32 timeout_ms = 1;
+  bool debug_enabled = 2;
+  bool include_timing = 3;
+  bool include_result_source = 4;
+  bool strict_validation = 5;
+}
+
+message CalculationResponse {
+  uint32 protocol_version = 1;
+  string request_id = 2;
+  Status status = 3;
+  optional Result result = 4;
+  optional Error error = 5;
+  string source = 6;
+  optional Timing timing = 7;
+}
+
+message Status {
+  int32 code = 1;
+  string name = 2;
+}
+
+message Result {
+  int64 value = 1;
+}
+
+message Error {
+  string code = 1;
+  string message = 2;
+  string field = 3;
+  bool retryable = 4;
+}
+
+message Timing {
+  uint64 total_duration_ms = 1;
+}
